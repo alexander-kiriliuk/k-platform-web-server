@@ -84,7 +84,7 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
         }
         logger.log("Set default captcha service");
         return new GraphicCaptchaService(logger, cs);
-      }
+      },
     }),
     UserModule.forRoot(),
     ExplorerModule.forRoot(),
@@ -100,10 +100,10 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
         return [
           {
             rootPath: process.cwd() + (await cs.get(KpConfig.STATIC_FILES))
-          }
+          },
         ];
-      }
-    })
+      },
+    }),
   ],
   controllers: [
     AppController,
@@ -126,8 +126,8 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
       provide: ENTITY_SAVE_HANDLER,
       useFactory: (h1: UserEntityPwdAndRolesSaveHandler) => [h1],
       inject: [UserEntityPwdAndRolesSaveHandler]
-    }
-  ]
+    },
+  ],
 })
 export class WebAppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -92,7 +92,7 @@ import readFile = FilesUtils.readFile;
         MediaModule.forRoot(),
         ExplorerModule.forRoot(),
         TypeOrmModule.forRootAsync(Orm.getOptions(true))
-      ]
+      ],
     });
     const app = await NestFactory.createApplicationContext(mod);
     await app.init();

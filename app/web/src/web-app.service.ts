@@ -51,7 +51,7 @@ export class WebAppService {
         "icon.files.format",
         "icon.type",
         "icon.type.ext"
-      ]
+      ],
     });
   }
 

@@ -101,7 +101,7 @@ export namespace Orm {
           subscribers: [UserSubscriber]
         };
         return opts;
-      }
+      },
     };
   }
 }

@@ -62,9 +62,9 @@ import { ServerConfig } from "@gen-src/server.config";
         policy: crossOriginResourcePolicy as
           | "same-origin"
           | "same-site"
-          | "cross-origin"
-      }
-    })
+          | "cross-origin",
+      },
+    }),
   );
   const corsOptions: CorsOptions = {
     allowedHeaders: await cacheService.get(CorsConfig.HEADERS),
