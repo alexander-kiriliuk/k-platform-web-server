@@ -1,1 +1,1 @@
-# k-platform-web-starter
+K-platform starter
