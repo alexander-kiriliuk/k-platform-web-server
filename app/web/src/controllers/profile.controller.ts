@@ -24,7 +24,7 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import {
   AuthGuard,
@@ -36,15 +36,14 @@ import {
   User,
   UserDto,
   UserService,
-  UserUtils
+  UserUtils,
 } from "@k-platform/core";
 import hasSomeRole = UserUtils.hasSomeRole;
 
 @Controller("/profile")
 @UseGuards(AuthGuard, RolesGuard)
 export class ProfileController {
-  constructor(private readonly userService: UserService) {
-  }
+  constructor(private readonly userService: UserService) {}
 
   @ResponseDto(UserDto)
   @Get("/:id?")
@@ -67,7 +66,7 @@ export class ProfileController {
   async updateUserProfile(
     @Param("id") id: string,
     @Body() profile: User,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     if (id && !hasSomeRole(user.roles, Roles.ADMIN)) {
       throw new ForbiddenException();

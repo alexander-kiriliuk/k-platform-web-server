@@ -15,12 +15,15 @@
  */
 
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { CaptchaRequest, CaptchaResponse, CaptchaService } from "@k-platform/core";
+import {
+  CaptchaRequest,
+  CaptchaResponse,
+  CaptchaService,
+} from "@k-platform/core";
 
 @Controller("/captcha")
 export class CaptchaController {
-  constructor(private readonly captchaService: CaptchaService) {
-  }
+  constructor(private readonly captchaService: CaptchaService) {}
 
   @Post("/validate")
   async validateCaptcha(@Body() payload: CaptchaRequest) {
@@ -39,7 +42,7 @@ export class CaptchaController {
       enabled: true,
       id: captcha.id,
       image: captcha.image,
-      type: captcha.type
+      type: captcha.type,
     };
   }
 }

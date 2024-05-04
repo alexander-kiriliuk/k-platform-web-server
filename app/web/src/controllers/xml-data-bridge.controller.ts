@@ -14,7 +14,14 @@
  *    limitations under the License.
  */
 
-import { Body, Controller, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from "@nestjs/common";
 import {
   AuthGuard,
   CurrentUser,
@@ -25,7 +32,7 @@ import {
   XdbExportParams,
   XdbExportService,
   XdbImportService,
-  XdbObject
+  XdbObject,
 } from "@k-platform/core";
 import { FileInterceptor } from "@nestjs/platform-express";
 
@@ -34,9 +41,8 @@ import { FileInterceptor } from "@nestjs/platform-express";
 export class XmlDataBridgeController {
   constructor(
     private readonly xdbImportService: XdbImportService,
-    private readonly xdbExportService: XdbExportService
-  ) {
-  }
+    private readonly xdbExportService: XdbExportService,
+  ) {}
 
   @Post("/import")
   @ForRoles(Roles.ROOT)
@@ -48,7 +54,7 @@ export class XmlDataBridgeController {
   @UseInterceptors(FileInterceptor("file"))
   @ForRoles(Roles.ROOT)
   async importFile(
-    @UploadedFile("file", new NotEmptyPipe("file")) file: Express.Multer.File
+    @UploadedFile("file", new NotEmptyPipe("file")) file: Express.Multer.File,
   ) {
     return await this.xdbImportService.importFromFile(file.buffer);
   }

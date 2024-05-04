@@ -14,14 +14,28 @@
  *    limitations under the License.
  */
 
-import { Body, Controller, Delete, Get, Post, Query, UseGuards } from "@nestjs/common";
-import { AuthGuard, ConfigItem, ConfigService, ForRoles, PageableParams, Roles } from "@k-platform/core";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
+import {
+  AuthGuard,
+  ConfigItem,
+  ConfigService,
+  ForRoles,
+  PageableParams,
+  Roles,
+} from "@k-platform/core";
 
 @Controller("config")
 @UseGuards(AuthGuard)
 export class ConfigController {
-  constructor(private readonly configService: ConfigService) {
-  }
+  constructor(private readonly configService: ConfigService) {}
 
   @UseGuards(AuthGuard)
   @Get("/")

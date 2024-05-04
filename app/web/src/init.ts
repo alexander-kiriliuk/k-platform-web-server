@@ -31,7 +31,7 @@ import {
   XdbImportService,
   XmlDataBridgeExportService,
   XmlDataBridgeImportService,
-  XmlDataBridgeModule
+  XmlDataBridgeModule,
 } from "@k-platform/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { DbConfig } from "@gen-src/db.config";
@@ -46,7 +46,7 @@ import readFile = FilesUtils.readFile;
       port: parseInt(process.env.REDIS_PORT),
       db: parseInt(process.env.REDIS_DB),
       username: process.env.REDIS_USER,
-      password: process.env.REDIS_PASSWORD
+      password: process.env.REDIS_PASSWORD,
     });
     console.log("Test redis connection...");
     await new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ import readFile = FilesUtils.readFile;
       host: await cs.get(DbConfig.HOST),
       port: await cs.getNumber(DbConfig.PORT),
       username: await cs.get(DbConfig.USERNAME),
-      password: await cs.get(DbConfig.PASSWORD)
+      password: await cs.get(DbConfig.PASSWORD),
     });
     await ds.initialize();
     const dbName = await cs.get(DbConfig.DATABASE);
@@ -91,7 +91,7 @@ import readFile = FilesUtils.readFile;
         FileModule.forRoot(),
         MediaModule.forRoot(),
         ExplorerModule.forRoot(),
-        TypeOrmModule.forRootAsync(Orm.getOptions(true))
+        TypeOrmModule.forRootAsync(Orm.getOptions(true)),
       ],
     });
     const app = await NestFactory.createApplicationContext(mod);
@@ -100,11 +100,11 @@ import readFile = FilesUtils.readFile;
     const service = app.select(mod).get(XdbImportService);
     console.log("Import initial-data");
     const initialDataBody = await parseXmlFileData(
-      "/app/web/res/initial-data.xml"
+      "/app/web/res/initial-data.xml",
     );
     await service.importXml(initialDataBody);
     const sampleDataBody = await parseXmlFileData(
-      "/app/web/res/sample-data.xml"
+      "/app/web/res/sample-data.xml",
     );
     console.log("Import sample-data");
     await service.importXml(sampleDataBody);

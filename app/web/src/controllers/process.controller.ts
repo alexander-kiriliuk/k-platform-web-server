@@ -14,15 +14,26 @@
  *    limitations under the License.
  */
 
-import { Controller, Get, NotFoundException, Param, UseGuards } from "@nestjs/common";
-import { AuthGuard, CommonUtils, ForRoles, ProcessManagerService, Roles } from "@k-platform/core";
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  UseGuards,
+} from "@nestjs/common";
+import {
+  AuthGuard,
+  CommonUtils,
+  ForRoles,
+  ProcessManagerService,
+  Roles,
+} from "@k-platform/core";
 import sleep = CommonUtils.sleep;
 
 @Controller("process")
 @UseGuards(AuthGuard)
 export class ProcessController {
-  constructor(private readonly pmService: ProcessManagerService) {
-  }
+  constructor(private readonly pmService: ProcessManagerService) {}
 
   @Get("/start/:code")
   @ForRoles(Roles.ADMIN)
@@ -50,7 +61,7 @@ export class ProcessController {
       throw new NotFoundException();
     }
     processData.logs = await this.pmService.getLastLogsByProcess(
-      processData.code
+      processData.code,
     );
     return processData;
   }

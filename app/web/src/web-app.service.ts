@@ -24,7 +24,7 @@ import {
   LanguageEntity,
   User,
   UserRole,
-  UserUtils
+  UserUtils,
 } from "@k-platform/core";
 import hasAccessForRoles = UserUtils.hasAccessForRoles;
 
@@ -33,9 +33,8 @@ export class WebAppService {
   constructor(
     @InjectDataSource()
     private readonly dataSource: DataSource,
-    private readonly categoryService: CategoryService
-  ) {
-  }
+    private readonly categoryService: CategoryService,
+  ) {}
 
   private get menuRestrictionRep() {
     return this.dataSource.getRepository(CategoryRestrictionEntity);
@@ -50,14 +49,14 @@ export class WebAppService {
         "icon.files",
         "icon.files.format",
         "icon.type",
-        "icon.type.ext"
+        "icon.type.ext",
       ],
     });
   }
 
   async getMainMenu(user: User) {
     const restrictions = await this.menuRestrictionRep.find({
-      relations: ["category", "allowFor"]
+      relations: ["category", "allowFor"],
     });
     const menuTree =
       await this.categoryService.getDescendantsByCodeOfRoot("a-menu-root");
@@ -68,7 +67,7 @@ export class WebAppService {
   private validateMenu(
     menuTree: CategoryEntity,
     restrictions: CategoryRestrictionEntity[],
-    roles: UserRole[]
+    roles: UserRole[],
   ) {
     for (let i = menuTree.children.length - 1; i >= 0; i--) {
       const node = menuTree.children[i];

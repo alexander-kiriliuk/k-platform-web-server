@@ -51,10 +51,13 @@ import {
   UserEntityPwdAndRolesSaveHandler,
   UserModule,
   XmlDataBridgeMiddleware,
-  XmlDataBridgeModule
+  XmlDataBridgeModule,
 } from "@k-platform/core";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ServeStaticModule, ServeStaticModuleOptions } from "@nestjs/serve-static";
+import {
+  ServeStaticModule,
+  ServeStaticModuleOptions,
+} from "@nestjs/serve-static";
 import { CaptchaConfig } from "@gen-src/captcha.config";
 import { KpConfig } from "@gen-src/kp.config";
 import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
@@ -75,7 +78,7 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
       useFactory: async (
         cs: CacheService,
         logger: Logger,
-        httpService: HttpService
+        httpService: HttpService,
       ) => {
         const type = await cs.get(CaptchaConfig.TYPE);
         if (type === "google") {
@@ -95,11 +98,11 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
       imports: [CacheModule],
       inject: [CacheService],
       useFactory: async (
-        cs: CacheService
+        cs: CacheService,
       ): Promise<ServeStaticModuleOptions[]> => {
         return [
           {
-            rootPath: process.cwd() + (await cs.get(KpConfig.STATIC_FILES))
+            rootPath: process.cwd() + (await cs.get(KpConfig.STATIC_FILES)),
           },
         ];
       },
@@ -115,7 +118,7 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
     FileController,
     ConfigController,
     XmlDataBridgeController,
-    ProcessController
+    ProcessController,
   ],
   providers: [
     LocaleSubscriber,
@@ -125,7 +128,7 @@ import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
     {
       provide: ENTITY_SAVE_HANDLER,
       useFactory: (h1: UserEntityPwdAndRolesSaveHandler) => [h1],
-      inject: [UserEntityPwdAndRolesSaveHandler]
+      inject: [UserEntityPwdAndRolesSaveHandler],
     },
   ],
 })

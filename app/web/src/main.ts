@@ -16,7 +16,12 @@
 
 import { NestFactory, Reflector } from "@nestjs/core";
 import { WebAppModule } from "./web-app.module";
-import { ClassSerializerInterceptor, ForbiddenException, Logger, ValidationPipe } from "@nestjs/common";
+import {
+  ClassSerializerInterceptor,
+  ForbiddenException,
+  Logger,
+  ValidationPipe,
+} from "@nestjs/common";
 import { ExpressAdapter } from "@nestjs/platform-express";
 import { CorsOptions } from "@nestjs/common/interfaces/external/cors-options.interface";
 import helmet from "helmet";
@@ -30,7 +35,7 @@ import {
   EnvLoader,
   JsonUtils,
   LOGGER,
-  LogModule
+  LogModule,
 } from "@k-platform/core";
 import { CorsConfig } from "@gen-src/cors.config";
 import { ServerConfig } from "@gen-src/server.config";
@@ -51,7 +56,7 @@ import { ServerConfig } from "@gen-src/server.config";
   app.useGlobalFilters(new DbExceptionFilter());
   const cacheService: CacheService = app.select(CacheModule).get(CacheService);
   const crossOriginResourcePolicy = await cacheService.get(
-    CorsConfig.RESOURCE_POLICY
+    CorsConfig.RESOURCE_POLICY,
   );
   const reqLimit = await cacheService.get(ServerConfig.REQ_LIMIT);
   expressAdapter.use(json({ limit: reqLimit }));
@@ -70,7 +75,7 @@ import { ServerConfig } from "@gen-src/server.config";
     allowedHeaders: await cacheService.get(CorsConfig.HEADERS),
     methods: await cacheService.get(CorsConfig.METHODS),
     origin: (await cacheService.get(CorsConfig.ORIGIN))?.split(","),
-    credentials: await cacheService.getBoolean(CorsConfig.CREDENTIALS)
+    credentials: await cacheService.getBoolean(CorsConfig.CREDENTIALS),
   };
   app.enableCors(corsOptions);
   const result = await cacheService.get(ServerConfig.EXCLUDE_URLS);

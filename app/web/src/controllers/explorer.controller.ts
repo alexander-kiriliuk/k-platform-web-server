@@ -25,7 +25,7 @@ import {
   Param,
   Post,
   Query,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
 import {
   AuthGuard,
@@ -39,7 +39,7 @@ import {
   PageableParams,
   Roles,
   RolesGuard,
-  User
+  User,
 } from "@k-platform/core";
 import ENTITY_SAVE_HANDLER = Explorer.ENTITY_SAVE_HANDLER;
 
@@ -50,9 +50,8 @@ export class ExplorerController {
     @Optional()
     @Inject(ENTITY_SAVE_HANDLER)
     private readonly saveHandlers: EntitySaveHandler[] = [],
-    private readonly explorerService: ExplorerService
-  ) {
-  }
+    private readonly explorerService: ExplorerService,
+  ) {}
 
   @Get("/target-list")
   @ForRoles(Roles.ADMIN)
@@ -70,14 +69,14 @@ export class ExplorerController {
   async getTarget(
     @Param("target") target: string,
     @Query("type") type: "section" | "object",
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     const targetParams: ExplorerTargetParams = {
       section: type === "section",
       object: type === "object",
       fullRelations: true,
       readRequest: true,
-      checkUserAccess: user
+      checkUserAccess: user,
     };
     const res = await this.explorerService.getTargetData(target, targetParams);
     if (!res) {
@@ -90,17 +89,17 @@ export class ExplorerController {
   async getEntity(
     @Param("target") target: string,
     @Query("id") id: string,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     const targetParams: ExplorerTargetParams = {
       readRequest: true,
-      checkUserAccess: user
+      checkUserAccess: user,
     };
     const res = await this.explorerService.getEntityData(
       target,
       id,
       undefined,
-      targetParams
+      targetParams,
     );
     if (!res) {
       throw new NotFoundException();
@@ -112,16 +111,16 @@ export class ExplorerController {
   async getEntityList(
     @Param("target") target: string,
     @Query() params: PageableParams,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     const targetParams: ExplorerTargetParams = {
       readRequest: true,
-      checkUserAccess: user
+      checkUserAccess: user,
     };
     return await this.explorerService.getPageableEntityData(
       target,
       params,
-      targetParams
+      targetParams,
     );
   }
 
@@ -129,7 +128,7 @@ export class ExplorerController {
   async saveEntity<T>(
     @Param("target") target: string,
     @Body() body: T,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     let data = body;
     for (const handler of this.saveHandlers) {
@@ -137,12 +136,12 @@ export class ExplorerController {
     }
     const targetParams: ExplorerTargetParams = {
       writeRequest: true,
-      checkUserAccess: user
+      checkUserAccess: user,
     };
     return await this.explorerService.saveEntityData(
       target,
       data,
-      targetParams
+      targetParams,
     );
   }
 
@@ -150,11 +149,11 @@ export class ExplorerController {
   async removeEntity(
     @Param("target") target: string,
     @Query("id") id: string,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     const targetParams: ExplorerTargetParams = {
       writeRequest: true,
-      checkUserAccess: user
+      checkUserAccess: user,
     };
     return await this.explorerService.removeEntity(target, id, targetParams);
   }

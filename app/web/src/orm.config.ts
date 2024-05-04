@@ -14,7 +14,10 @@
  *    limitations under the License.
  */
 
-import { TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from "@nestjs/typeorm";
+import {
+  TypeOrmModuleAsyncOptions,
+  TypeOrmModuleOptions,
+} from "@nestjs/typeorm";
 import { LoggerOptions } from "typeorm";
 import {
   AudioFileMetadataEntity,
@@ -46,7 +49,7 @@ import {
   UserEntity,
   UserRoleEntity,
   UserSubscriber,
-  VideoFileMetadataEntity
+  VideoFileMetadataEntity,
 } from "@k-platform/core";
 import { DbConfig } from "@gen-src/db.config";
 
@@ -95,10 +98,10 @@ export namespace Orm {
             LocalizedStringEntity,
             LocalizedMediaEntity,
             CategoryEntity,
-            CategoryRestrictionEntity
+            CategoryRestrictionEntity,
           ],
           migrations: [],
-          subscribers: [UserSubscriber]
+          subscribers: [UserSubscriber],
         };
         return opts;
       },

@@ -24,31 +24,35 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Response } from "express";
 import * as path from "path";
-import { AuthGuard, DEFAULT_MEDIA_TYPE, MediaManager, NotEmptyPipe } from "@k-platform/core";
+import {
+  AuthGuard,
+  DEFAULT_MEDIA_TYPE,
+  MediaManager,
+  NotEmptyPipe,
+} from "@k-platform/core";
 
 @Controller("/media")
 @UseGuards(AuthGuard)
 export class MediaController {
-  constructor(private readonly mediaService: MediaManager) {
-  }
+  constructor(private readonly mediaService: MediaManager) {}
 
   @Post("/upload/:type?")
   @UseInterceptors(FileInterceptor("file"))
   async createMedia(
     @UploadedFile("file", new NotEmptyPipe("file")) file: Express.Multer.File,
     @Param("type") type = DEFAULT_MEDIA_TYPE,
-    @Query("id") id: number
+    @Query("id") id: number,
   ) {
     return await this.mediaService.createOrUpdateMedia(
       file.buffer,
       type,
       undefined,
-      id
+      id,
     );
   }
 
@@ -57,7 +61,7 @@ export class MediaController {
     @Res() res: Response,
     @Param("id") id: number,
     @Query("format") format: string,
-    @Query("webp") webp: boolean
+    @Query("webp") webp: boolean,
   ) {
     const media = await this.mediaService.findPrivateById(id);
     const mediaPath = await this.mediaService.getMediaPath(media, format, webp);

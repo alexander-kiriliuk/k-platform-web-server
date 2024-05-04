@@ -14,7 +14,15 @@
  *    limitations under the License.
  */
 
-import { Body, Controller, ForbiddenException, Post, Req, Res, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  ForbiddenException,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from "@nestjs/common";
 import {
   AccessToken,
   AuthService,
@@ -24,7 +32,7 @@ import {
   JwtDto,
   LiteAuthGuard,
   LoginPayload,
-  ResponseDto
+  ResponseDto,
 } from "@k-platform/core";
 import { Request, Response } from "express";
 import { CaptchaConfig } from "@gen-src/captcha.config";
@@ -34,24 +42,23 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly cacheService: CacheService,
-    private readonly captchaService: CaptchaService
-  ) {
-  }
+    private readonly captchaService: CaptchaService,
+  ) {}
 
   @ResponseDto(JwtDto)
   @Post("/login")
   async login(
     @Body() payload: LoginPayload,
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     const captchaEnabled = await this.cacheService.getBoolean(
-      CaptchaConfig.ENABLED
+      CaptchaConfig.ENABLED,
     );
     if (captchaEnabled) {
       const res = await this.captchaService.validateCaptcha({
         id: payload.captchaId,
-        data: payload.captchaPayload
+        data: payload.captchaPayload,
       });
       if (!res) {
         throw new ForbiddenException("Invalid captcha");
@@ -64,12 +71,12 @@ export class AuthController {
     response.cookie("accessToken", data.accessToken, {
       sameSite: true,
       httpOnly: true,
-      expires: data.atExp
+      expires: data.atExp,
     });
     response.cookie("refreshToken", data.refreshToken, {
       sameSite: true,
       httpOnly: true,
-      expires: data.rtExp
+      expires: data.rtExp,
     });
     return data;
   }
@@ -78,7 +85,7 @@ export class AuthController {
   @Post("/logout")
   async logout(
     @AccessToken() token: string,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     const result = await this.authService.invalidateToken(token);
     response.clearCookie("accessToken");
@@ -91,19 +98,19 @@ export class AuthController {
   async exchange(
     @Body() payload: ExchangeTokenPayload,
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     const token = payload?.token ?? request.cookies?.refreshToken;
     const data = await this.authService.exchangeToken(token);
     response.cookie("accessToken", data.accessToken, {
       sameSite: true,
       httpOnly: true,
-      expires: data.atExp
+      expires: data.atExp,
     });
     response.cookie("refreshToken", data.refreshToken, {
       sameSite: true,
       httpOnly: true,
-      expires: data.rtExp
+      expires: data.rtExp,
     });
     return data;
   }

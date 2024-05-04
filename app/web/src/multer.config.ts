@@ -14,13 +14,16 @@
  *    limitations under the License.
  */
 
-import { MulterModuleOptions, MulterOptionsFactory } from "@nestjs/platform-express";
+import {
+  MulterModuleOptions,
+  MulterOptionsFactory,
+} from "@nestjs/platform-express";
 import { memoryStorage } from "multer";
 
 export class MulterConfig implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
     return {
-      storage: memoryStorage()
+      storage: memoryStorage(),
     };
   }
 }

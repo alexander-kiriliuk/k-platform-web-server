@@ -24,7 +24,7 @@ import {
   Res,
   UploadedFile,
   UseGuards,
-  UseInterceptors
+  UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { Response } from "express";
@@ -33,14 +33,13 @@ import { AuthGuard, FileManager, NotEmptyPipe } from "@k-platform/core";
 @Controller("/file")
 @UseGuards(AuthGuard)
 export class FileController {
-  constructor(private readonly fileService: FileManager) {
-  }
+  constructor(private readonly fileService: FileManager) {}
 
   @Post("/upload")
   @UseInterceptors(FileInterceptor("file"))
   async createFile(
     @UploadedFile("file", new NotEmptyPipe("file")) file: Express.Multer.File,
-    @Query("public") isPublic = "true"
+    @Query("public") isPublic = "true",
   ) {
     return this.fileService.createOrUpdateFile(
       file.buffer,
@@ -48,7 +47,7 @@ export class FileController {
       isPublic === "true",
       undefined,
       undefined,
-      file.originalname
+      file.originalname,
     );
   }
 
