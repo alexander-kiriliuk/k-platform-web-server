@@ -5,7 +5,7 @@
   "author": "Alexander Kiriliuk",
   "license": "Apache-2.0",
   "scripts": {
-    "lint": "eslint \"app/**/*.ts\" --fix",
+    "lint": "eslint --fix --ext .js,.ts .",
     "init": "npm run init:config && npm run init:web-app",
     "init:config": "nest start init-config",
     "init:web-app": "nest start init-web-app --debug",
